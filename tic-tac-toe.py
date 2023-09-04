@@ -37,6 +37,15 @@ def check_win():
     return False
 
 
+def check_tie():
+    if check_win():
+        return False
+    for i in board:
+        if i not in players:
+            return False
+    return True
+
+
 def get_input(player: int):
     while True:
         try:
@@ -82,9 +91,15 @@ def run_game():
         if check_win():
             print(f"Player {players[0]} wins!")
             break
+        if check_tie():
+            print("Tie!")
+            break
         update_board(1)
         if check_win():
             print(f"Player {players[1]} wins!")
+            break
+        if check_tie():
+            print("Tie!")
             break
 
 
@@ -95,15 +110,21 @@ def run_game_singleplayer():
         if check_win():
             print(f"Player {players[0]} wins!")
             break
+        if check_tie():
+            print("Tie!")
+            break
         ai_move()
         if check_win():
             print(f"AI wins!")
+            break
+        if check_tie():
+            print("Tie!")
             break
 
 
 def start():
     print("Welcome to tic-tac-toe!")
-    val = input("Do you want to play multiplayer or singleplayer? (m/s): ")
+    val = input("Do you want to play multiplayer or single player? (m/s): ")
     if val == "m":
         run_game()
     elif val == "s":
