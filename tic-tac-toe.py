@@ -44,24 +44,17 @@ def print_board():
 
 
 def check_win():
-    # TODO: Make this way better later
-    if board[0] == board[1] == board[2]:
+    magic_square = [4, 9, 2, 3, 5, 7, 8, 1, 6]
+    total_x = 0
+    total_o = 0
+    for i in range(len(board)):
+        if board[i] == players[0]:
+            total_x += magic_square[i]
+        elif board[i] == players[1]:
+            total_o += magic_square[i]
+
+    if total_x == 15 or total_o == 15:
         return True
-    if board[3] == board[4] == board[5]:
-        return True
-    if board[6] == board[7] == board[8]:
-        return True
-    if board[0] == board[3] == board[6]:
-        return True
-    if board[1] == board[4] == board[7]:
-        return True
-    if board[2] == board[5] == board[8]:
-        return True
-    if board[0] == board[4] == board[8]:
-        return True
-    if board[2] == board[4] == board[6]:
-        return True
-    return False
 
 
 def check_tie():
