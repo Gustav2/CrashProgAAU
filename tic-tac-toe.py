@@ -1,4 +1,7 @@
+import os
 import random
+
+os.system("")  # Enables ANSI escape codes for Windows
 
 board = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 players = ["X", "O"]
