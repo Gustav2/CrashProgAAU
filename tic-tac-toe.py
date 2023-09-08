@@ -4,6 +4,11 @@ board = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 players = ["X", "O"]
 
 
+# Probably not the best way to do this, but it works
+class GameDone(Exception):
+    pass
+
+
 def print_board():
     print(f"""
     -------------
@@ -17,7 +22,7 @@ def print_board():
 
 
 def check_win():
-    # Make this wayyy better later
+    # TODO: Make this wayyy better later
     if board[0] == board[1] == board[2]:
         return True
     if board[3] == board[4] == board[5]:
@@ -66,6 +71,13 @@ def update_board(player: int):
     num = get_input(player)
     board[num - 1] = players[player]
     print_board()
+    if check_win():
+        print(f"Player {players[player]} wins!")
+        raise GameDone
+
+    if check_tie():
+        print("Tie!")
+        raise GameDone
 
 
 def get_free_spots():
@@ -85,34 +97,20 @@ def ai_move():
 
 
 def run_game():
-    while True:
-        print_board()
-        update_board(0)
-        if check_win():
-            print(f"Player {players[0]} wins!")
-            break
-        if check_tie():
-            print("Tie!")
-            break
-        update_board(1)
-        if check_win():
-            print(f"Player {players[1]} wins!")
-            break
-        if check_tie():
-            print("Tie!")
-            break
+    print_board()
+    try:
+        while True:
+            update_board(0)
+            update_board(1)
+    except GameDone:
+        print("Game done!")
 
 
 def run_game_singleplayer():
+    print_board()
     while True:
-        print_board()
         update_board(0)
-        if check_win():
-            print(f"Player {players[0]} wins!")
-            break
-        if check_tie():
-            print("Tie!")
-            break
+
         ai_move()
         if check_win():
             print(f"AI wins!")
