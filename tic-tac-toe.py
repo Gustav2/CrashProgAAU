@@ -25,7 +25,6 @@ def get_player_color(player: int):
         return Colors.RED
 
 
-
 def print_board():
     temp_board = board.copy()
     for i in temp_board:
