@@ -9,14 +9,26 @@ class GameDone(Exception):
     pass
 
 
+class Colors:
+    GREEN = '\33[32m'
+    RED = '\33[31m'
+    END = '\033[0m'
+
+
 def print_board():
+    temp_board = board.copy()
+    for i in temp_board:
+        if i == players[0]:
+            temp_board[temp_board.index(i)] = f"{Colors.GREEN}{i}{Colors.END}"
+        elif i == players[1]:
+            temp_board[temp_board.index(i)] = f"{Colors.RED}{i}{Colors.END}"
     print(f"""
     -------------
-    | {board[0]} | {board[1]} | {board[2]} |
+    | {temp_board[0]} | {temp_board[1]} | {temp_board[2]} |
     -------------
-    | {board[3]} | {board[4]} | {board[5]} |
+    | {temp_board[3]} | {temp_board[4]} | {temp_board[5]} |
     -------------
-    | {board[6]} | {board[7]} | {board[8]} |
+    | {temp_board[6]} | {temp_board[7]} | {temp_board[8]} |
     -------------
     """)
 
@@ -85,8 +97,8 @@ def update_board(player: int):
 
     num = get_input(player)
     board[num - 1] = players[player]
-
     print_board()
+
     if check_win():
         print(f"Player {players[player]} wins!")
         raise GameDone
@@ -104,12 +116,27 @@ def get_free_spots():
     return free
 
 
+def get_ai_spots():
+    ai_spots = []
+    for i in range(len(board)):
+        if board[i] == players[1]:
+            ai_spots.append(i)
+    return ai_spots
+
 def ai_move():
     free = get_free_spots()
+    ai_spots = get_ai_spots()
+    if board.count(players[1]) >= 3:
+        remove = random.choice(ai_spots)
+        board[remove] = str(remove + 1)
+        print(f"AI removed {remove + 1}")
+
     move = random.choice(free)
     board[move] = players[1]
+
     print(f"AI chose {move + 1}")
     print_board()
+
     if check_win():
         print(f"AI wins!")
         raise GameDone
@@ -131,10 +158,12 @@ def run_game():
 
 def run_game_single_player():
     print_board()
-    while True:
-        update_board(0)
-
-        ai_move()
+    try:
+        while True:
+            update_board(0)
+            ai_move()
+    except GameDone:
+        print("Game done!")
 
 
 def start():
