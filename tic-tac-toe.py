@@ -10,8 +10,8 @@ class GameDone(Exception):
 
 
 class Colors:
-    GREEN = '\33[32m'
-    RED = '\33[31m'
+    GREEN = '\33[1m\33[32m'
+    RED = '\33[1m\33[31m'
     END = '\033[0m'
 
 
