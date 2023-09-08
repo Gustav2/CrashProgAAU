@@ -126,6 +126,7 @@ def get_ai_spots():
             ai_spots.append(i)
     return ai_spots
 
+
 def ai_move():
     free = get_free_spots()
     ai_spots = get_ai_spots()
