@@ -123,7 +123,7 @@ def run_game_single_player():
 
 def start():
     while True:
-        print("Welcome to tic-tac-toe!")
+        print("\033[91mWelcome to tic-tac-toe! \033[0m")
         val = input("Do you want to play multiplayer or single player? (m/s): ")
         match val:
             case "m":
