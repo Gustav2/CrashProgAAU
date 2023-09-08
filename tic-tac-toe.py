@@ -18,6 +18,14 @@ class Colors:
     END = '\033[0m'
 
 
+def get_player_color(player: int):
+    if player == 0:
+        return Colors.GREEN
+    elif player == 1:
+        return Colors.RED
+
+
+
 def print_board():
     temp_board = board.copy()
     for i in temp_board:
@@ -70,9 +78,10 @@ def get_input(player: int, change: bool = False):
     while True:
         try:
             if change:
-                num = int(input(f"Player {players[player]}, choose a number to change: "))
+                num = int(input(
+                    f"Player {get_player_color(player)}{players[player]}{Colors.END}, choose a number to change: "))
             else:
-                num = int(input(f"Player {players[player]}, choose a number: "))
+                num = int(input(f"Player {get_player_color(player)}{players[player]}{Colors.END}, choose a number: "))
 
         except ValueError:
             print("Invalid input")
@@ -133,12 +142,12 @@ def ai_move():
     if board.count(players[1]) >= 3:
         remove = random.choice(ai_spots)
         board[remove] = str(remove + 1)
-        print(f"AI removed {remove + 1}")
+        print(f"AI removed {Colors.RED + str(remove + 1) + Colors.END}")
 
     move = random.choice(free)
     board[move] = players[1]
 
-    print(f"AI chose {move + 1}")
+    print(f"AI chose {Colors.RED + str(move + 1) + Colors.END}")
     print_board()
 
     if check_win():
