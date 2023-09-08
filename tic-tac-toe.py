@@ -51,25 +51,41 @@ def check_tie():
     return True
 
 
-def get_input(player: int):
+def get_input(player: int, change: bool = False):
     while True:
         try:
-            num = int(input(f"Player {players[player]}, choose a number: "))
+            if change:
+                num = int(input(f"Player {players[player]}, choose a number to change: "))
+            else:
+                num = int(input(f"Player {players[player]}, choose a number: "))
+
         except ValueError:
             print("Invalid input")
             continue
+
         if num < 1 or num > 9:
             print("Invalid input")
             continue
-        if board[num - 1] in players:
+        if board[num - 1] in players and not change:
             print("Spot already taken")
             continue
+
+        if change:
+            if board[num - 1] != players[player]:
+                print("You can only change your own spots")
+                continue
+
         return num
 
 
 def update_board(player: int):
+    if board.count(players[player]) >= 3:
+        change = get_input(player, True)
+        board[change - 1] = str(change)
+
     num = get_input(player)
     board[num - 1] = players[player]
+
     print_board()
     if check_win():
         print(f"Player {players[player]} wins!")
@@ -128,8 +144,10 @@ def start():
         match val:
             case "m":
                 run_game()
+                break
             case "s":
                 run_game_single_player()
+                break
             case "q":
                 print("Quitting...")
                 return
