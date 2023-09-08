@@ -22,7 +22,7 @@ def print_board():
 
 
 def check_win():
-    # TODO: Make this wayyy better later
+    # TODO: Make this way better later
     if board[0] == board[1] == board[2]:
         return True
     if board[3] == board[4] == board[5]:
@@ -113,7 +113,7 @@ def run_game():
         print("Game done!")
 
 
-def run_game_singleplayer():
+def run_game_single_player():
     print_board()
     while True:
         update_board(0)
@@ -129,7 +129,7 @@ def start():
             case "m":
                 run_game()
             case "s":
-                run_game_singleplayer()
+                run_game_single_player()
             case "q":
                 print("Quitting...")
                 return
@@ -139,6 +139,7 @@ def start():
 
 if __name__ == "__main__":
     try:
+        print("\033[H\033[J", end="")  # Clears the screen with crazy hack
         start()
     except KeyboardInterrupt:
         print("Quitting...")
