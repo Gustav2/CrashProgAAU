@@ -94,6 +94,13 @@ def ai_move():
     board[move] = players[1]
     print(f"AI chose {move + 1}")
     print_board()
+    if check_win():
+        print(f"AI wins!")
+        raise GameDone
+
+    if check_tie():
+        print("Tie!")
+        raise GameDone
 
 
 def run_game():
@@ -112,28 +119,26 @@ def run_game_singleplayer():
         update_board(0)
 
         ai_move()
-        if check_win():
-            print(f"AI wins!")
-            break
-        if check_tie():
-            print("Tie!")
-            break
 
 
 def start():
-    print("Welcome to tic-tac-toe!")
-    val = input("Do you want to play multiplayer or single player? (m/s): ")
-    if val == "m":
-        run_game()
-    elif val == "s":
-        run_game_singleplayer()
-    elif val == "q":
-        print("Quitting...")
-        return
-    else:
-        print("Invalid input")
-        start()
+    while True:
+        print("Welcome to tic-tac-toe!")
+        val = input("Do you want to play multiplayer or single player? (m/s): ")
+        match val:
+            case "m":
+                run_game()
+            case "s":
+                run_game_singleplayer()
+            case "q":
+                print("Quitting...")
+                return
+            case _:
+                print("Invalid input")
 
 
 if __name__ == "__main__":
-    start()
+    try:
+        start()
+    except KeyboardInterrupt:
+        print("Quitting...")
